@@ -1,16 +1,18 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+const authRoutes = require("./routes/auth");
 
 const { db } = require("./config/firebase");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
+app.use("/", authRoutes);
 
-// Route mẫu 
+
 app.get("/test", async (req, res) => {
   try {
     const snapshot = await db.collection("test").get();
