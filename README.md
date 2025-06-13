@@ -4,10 +4,10 @@
    npm install express bcryptjs jsonwebtoken dotenv firebase-admin nodemailer  
    ```
 
-2. **Tạo file `.env` từ file mẫu:**
+2. **Tạo file `.env` từ file mẫu ở dưới:**
 
    ```bash
-   cp .env.example .env
+   cp .env
    ```
 
 3. **Điền các biến môi trường vào `.env` theo cấu trúc sau:**
