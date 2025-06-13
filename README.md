@@ -1,12 +1,16 @@
 ## 📦 Environment Setup
+1. **Thêm các package**
+   ```bash
+   npm install express bcryptjs jsonwebtoken dotenv firebase-admin nodemailer  
+   ```
 
-1. **Tạo file `.env` từ file mẫu:**
+2. **Tạo file `.env` từ file mẫu:**
 
    ```bash
    cp .env.example .env
    ```
 
-2. **Điền các biến môi trường vào `.env` theo cấu trúc sau:**
+3. **Điền các biến môi trường vào `.env` theo cấu trúc sau:**
 
    ```env
    # 🔐 Firebase Service Account
@@ -25,13 +29,13 @@
    # 🌐 Server Port
    PORT=3001
 
-3. **Cài đặt dependencies:**
+4. **Cài đặt dependencies:**
 
    ```bash
    npm install
    ```
 
-4. **Chạy server:**
+5. **Chạy server:**
 
    ```bash
    node src/index.js
