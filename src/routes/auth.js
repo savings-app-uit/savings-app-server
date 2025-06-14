@@ -7,7 +7,9 @@ const signin = require("../controllers/auth/signin");
 const sendCode = require("../controllers/auth/forgotPassword/sendCode");
 const verifyCode = require("../controllers/auth/forgotPassword/verifyCode");
 const resetPassword = require("../controllers/auth/forgotPassword/resetPassword");
+const showDocs = require("../controllers/docs");
 
+router.get("/", showDocs); 
 router.post("/signup", signup);
 router.post("/signin", signin);
 router.post("/forgot-password/send-code", sendCode);
