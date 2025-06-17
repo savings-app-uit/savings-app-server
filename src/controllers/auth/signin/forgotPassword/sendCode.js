@@ -1,5 +1,5 @@
-const { db } = require("../../../config/firebase");
-const { sendVerificationEmail } = require("../../../utils/mailer");
+const { db } = require("../../../../config/firebase");
+const { sendVerificationEmail } = require("../../../../utils/mailer");
 
 module.exports = async (req, res) => {
   const { email } = req.body;
