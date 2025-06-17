@@ -5,13 +5,9 @@ module.exports = async (req, res) => {
   if (!email || !code) return res.status(400).json({ message: "Missing email or code" });
 
   try {
-    const userSnap = await db.collection("users").where("email", "==", email).get();
-    if (userSnap.empty) return res.status(404).json({ message: "User not found" });
-
-    const userId = userSnap.docs[0].id;
-
     const otpSnap = await db.collection("password_otps")
-      .where("userId", "==", userId)
+      .where("email", "==", email)
+      .where("type", "==", "reset")
       .where("isUsed", "==", false)
       .orderBy("createdAt", "desc")
       .limit(1)

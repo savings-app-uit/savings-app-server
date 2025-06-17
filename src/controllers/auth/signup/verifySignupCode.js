@@ -9,8 +9,9 @@ module.exports = async (req, res) => {
     return res.status(400).json({ message: "Missing email or code" });
 
   try {
-    const otpSnap = await db.collection("signup_otps")
+    const otpSnap = await db.collection("password_otps")
       .where("email", "==", email)
+      .where("type", "==", "signup")
       .where("isUsed", "==", false)
       .orderBy("createdAt", "desc")
       .limit(1)
@@ -24,12 +25,15 @@ module.exports = async (req, res) => {
 
     const createdAt = otpData.createdAt.toDate();
     const now = new Date();
-
     if ((now - createdAt) / 1000 > 300)
       return res.status(400).json({ message: "Code expired" });
 
     if (otpData.otp !== code)
       return res.status(400).json({ message: "Invalid code" });
+
+    const existingUserSnap = await db.collection("users").where("email", "==", email).get();
+    if (!existingUserSnap.empty)
+      return res.status(400).json({ message: "Email already registered" });
 
     const hashedPassword = await bcrypt.hash(otpData.password, 10);
 
@@ -41,7 +45,7 @@ module.exports = async (req, res) => {
       createdAt: new Date().toISOString()
     });
 
-    await db.collection("signup_otps").doc(otpDoc.id).update({ isUsed: true });
+    await db.collection("password_otps").doc(otpDoc.id).update({ isUsed: true });
 
     const token = jwt.sign(
       { id: newUserRef.id, email, name: otpData.name },

@@ -1,48 +1,42 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const { db } = require("../../../config/firebase");
+const { sendVerificationEmail } = require("../../../utils/mailer");
 
 module.exports = async (req, res) => {
-  const { name, email, phone, password } = req.body;
+  const { email, name, phone, password } = req.body;
 
-  if (!name || !email || !phone || !password) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
+  if (!email || !name || !phone || !password)
+    return res.status(400).json({ message: "Missing required fields" });
 
   try {
-    const snapshot = await db.collection("users").where("email", "==", email).get();
-    if (!snapshot.empty) {
+    const userSnap = await db.collection("users").where("email", "==", email).get();
+    if (!userSnap.empty)
       return res.status(400).json({ message: "Email already registered" });
-    }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const oldOtpSnap = await db.collection("password_otps")
+      .where("email", "==", email)
+      .where("type", "==", "signup")
+      .get();
+    const batch = db.batch();
+    oldOtpSnap.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
 
-    const newUserRef = await db.collection("users").add({
-      name,
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+    await db.collection("password_otps").add({
       email,
+      type: "signup",
+      name,
       phone,
-      password: hashedPassword,
-      createdAt: new Date().toISOString()
+      password,
+      otp,
+      createdAt: new Date(),
+      isUsed: false
     });
 
-    const token = jwt.sign(
-      { id: newUserRef.id, email, name },
-      process.env.JWT_SECRET,
-      { expiresIn: "2h" }
-    );
+    await sendVerificationEmail(email, otp);
+    return res.json({ message: "Verification code sent to email" });
 
-    return res.status(201).json({
-      message: "Signup successful",
-      token,
-      user: {
-        id: newUserRef.id,
-        name,
-        email,
-        phone
-      }
-    });
-
-  } catch (error) {
-    return res.status(500).json({ message: "Server error", error: error.message });
+  } catch (err) {
+    return res.status(500).json({ message: "Failed to send code", error: err.message });
   }
 };
