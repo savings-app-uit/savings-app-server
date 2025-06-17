@@ -1,42 +1,52 @@
+const bcrypt = require("bcryptjs");
 const { db } = require("../../../config/firebase");
-const { sendVerificationEmail } = require("../../../utils/mailer");
 
 module.exports = async (req, res) => {
-  const { email, name, phone, password } = req.body;
-
-  if (!email || !name || !phone || !password)
-    return res.status(400).json({ message: "Missing required fields" });
+  const { username, phone, password, email, code } = req.body;
+  if (!username || !phone || !password || !email || !code)
+    return res.status(400).json({ message: "Missing fields" });
 
   try {
+    const otpSnap = await db.collection("password_otps")
+      .where("email", "==", email)
+      .where("type", "==", "signup")
+      .where("isUsed", "==", false)
+      .orderBy("createdAt", "desc")
+      .limit(1)
+      .get();
+
+    if (otpSnap.empty)
+      return res.status(400).json({ message: "Please verify your email before signing up" });
+
+    const otpDoc = otpSnap.docs[0];
+    const otpData = otpDoc.data();
+
+    const createdAt = otpData.createdAt.toDate();
+    const now = new Date();
+    if ((now - createdAt) / 1000 > 300)
+      return res.status(400).json({ message: "Verification expired" });
+
+    if (otpData.otp !== code)
+      return res.status(400).json({ message: "Invalid code" });
+
     const userSnap = await db.collection("users").where("email", "==", email).get();
     if (!userSnap.empty)
       return res.status(400).json({ message: "Email already registered" });
 
-    const oldOtpSnap = await db.collection("password_otps")
-      .where("email", "==", email)
-      .where("type", "==", "signup")
-      .get();
-    const batch = db.batch();
-    oldOtpSnap.forEach(doc => batch.delete(doc.ref));
-    await batch.commit();
-
-    const otp = Math.floor(1000 + Math.random() * 9000).toString();
-
-    await db.collection("password_otps").add({
+    const hashed = await bcrypt.hash(password, 10);
+    await db.collection("users").add({
+      username,
       email,
-      type: "signup",
-      name,
       phone,
-      password,
-      otp,
-      createdAt: new Date(),
-      isUsed: false
+      password: hashed,
+      createdAt: new Date()
     });
 
-    await sendVerificationEmail(email, otp);
-    return res.json({ message: "Verification code sent to email" });
+    await db.collection("password_otps").doc(otpDoc.id).update({ isUsed: true });
+
+    return res.status(201).json({ message: "Signup successful" });
 
   } catch (err) {
-    return res.status(500).json({ message: "Failed to send code", error: err.message });
+    return res.status(500).json({ message: "Signup failed", error: err.message });
   }
 };

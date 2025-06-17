@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { db } = require("../../../config/firebase");
+const { db } = require("../../config/firebase");
 
 module.exports = async (req, res) => {
   const { email, password } = req.body;
