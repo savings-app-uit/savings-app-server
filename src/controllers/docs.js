@@ -63,13 +63,10 @@ module.exports = (req, res) => {
       </div>
 
       <div class="block">
-        <h2>5. Signup (Send OTP)</h2>
-        <strong>POST</strong> http://localhost:3001/signup
+        <h2>5. Signup - Send Code</h2>
+        <strong>POST</strong> http://localhost:3001/signup/send-code
         <pre>{
-  "name": "Nguyen Van A",
-  "email": "nguyenvana@example.com",
-  "phone": "0123456789",
-  "password": "123456"
+  "email": "nguyenvana@example.com"
 }</pre>
       </div>
 
@@ -78,6 +75,18 @@ module.exports = (req, res) => {
         <strong>POST</strong> http://localhost:3001/signup/verify-code
         <pre>{
   "email": "nguyenvana@example.com",
+  "code": "1234"
+}</pre>
+      </div>
+
+      <div class="block">
+        <h2>7. Signup - Finalize</h2>
+        <strong>POST</strong> http://localhost:3001/signup
+        <pre>{
+  "username": "nguyenvana",
+  "phone": "0123456789",
+  "email": nguyenvana@example.com",
+  "password": "123456",
   "code": "1234"
 }</pre>
       </div>
