@@ -27,7 +27,43 @@ module.exports = (req, res) => {
       <h1>Auth API Documentation</h1>
 
       <div class="block">
-        <h2>1. Signup</h2>
+        <h2>1. Signin</h2>
+        <strong>POST</strong> http://localhost:3001/signin
+        <pre>{
+  "email": "nguyenvana@example.com",
+  "password": "123456"
+}</pre>
+      </div>
+
+      <div class="block">
+        <h2>2. Forgot Password - Send Code</h2>
+        <strong>POST</strong> http://localhost:3001/forgot-password/send-code
+        <pre>{
+  "email": "nguyenvana@example.com"
+}</pre>
+      </div>
+
+      <div class="block">
+        <h2>3. Forgot Password - Verify Code</h2>
+        <strong>POST</strong> http://localhost:3001/forgot-password/verify-code
+        <pre>{
+  "email": "nguyenvana@example.com",
+  "code": "1234"
+}</pre>
+      </div>
+
+      <div class="block">
+        <h2>4. Forgot Password - Reset</h2>
+        <strong>POST</strong> http://localhost:3001/forgot-password/reset
+        <pre>{
+  "email": "nguyenvana@example.com",
+  "code": "1234",
+  "newPassword": "654321"
+}</pre>
+      </div>
+
+      <div class="block">
+        <h2>5. Signup (Send OTP)</h2>
         <strong>POST</strong> http://localhost:3001/signup
         <pre>{
   "name": "Nguyen Van A",
@@ -38,40 +74,14 @@ module.exports = (req, res) => {
       </div>
 
       <div class="block">
-        <h2>2. Signin</h2>
-        <strong>POST</strong> http://localhost:3001/signin
-        <pre>{
-  "email": "nguyenvana@example.com",
-  "password": "123456"
-}</pre>
-      </div>
-
-      <div class="block">
-        <h2>3. Send Code</h2>
-        <strong>POST</strong> http://localhost:3001/send-code
-        <pre>{
-  "email": "nguyenvana@example.com"
-}</pre>
-      </div>
-
-      <div class="block">
-        <h2>4. Verify Code</h2>
-        <strong>POST</strong> http://localhost:3001/verify-code
+        <h2>6. Signup - Verify Code</h2>
+        <strong>POST</strong> http://localhost:3001/signup/verify-code
         <pre>{
   "email": "nguyenvana@example.com",
   "code": "1234"
 }</pre>
       </div>
 
-      <div class="block">
-        <h2>5. Reset Password</h2>
-        <strong>POST</strong> http://localhost:3001/reset-password
-        <pre>{
-  "email": "nguyenvana@example.com",
-  "code": "1234",
-  "newPassword": "654321"
-}</pre>
-      </div>
     </body>
   </html>
   `;
