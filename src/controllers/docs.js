@@ -28,7 +28,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>1. Signin</h2>
-        <strong>POST</strong> http://localhost:3001/signin
+        <strong>POST</strong> http://localhost:3001/api/signin
         <pre>{
   "email": "nguyenvana@example.com",
   "password": "123456"
@@ -37,7 +37,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>2. Forgot Password - Send Code</h2>
-        <strong>POST</strong> http://localhost:3001/forgot-password/send-code
+        <strong>POST</strong> http://localhost:3001/forgot-password/api/send-code
         <pre>{
   "email": "nguyenvana@example.com"
 }</pre>
@@ -45,7 +45,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>3. Forgot Password - Verify Code</h2>
-        <strong>POST</strong> http://localhost:3001/forgot-password/verify-code
+        <strong>POST</strong> http://localhost:3001/forgot-password/api/verify-code
         <pre>{
   "email": "nguyenvana@example.com",
   "code": "1234"
@@ -54,7 +54,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>4. Forgot Password - Reset</h2>
-        <strong>POST</strong> http://localhost:3001/forgot-password/reset
+        <strong>POST</strong> http://localhost:3001/forgot-password/api/reset
         <pre>{
   "email": "nguyenvana@example.com",
   "code": "1234",
@@ -64,7 +64,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>5. Signup - Send Code</h2>
-        <strong>POST</strong> http://localhost:3001/signup/send-code
+        <strong>POST</strong> http://localhost:3001/signup/api/send-code
         <pre>{
   "email": "nguyenvana@example.com"
 }</pre>
@@ -72,7 +72,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>6. Signup - Verify Code</h2>
-        <strong>POST</strong> http://localhost:3001/signup/verify-code
+        <strong>POST</strong> http://localhost:3001/signup/api/verify-code
         <pre>{
   "email": "nguyenvana@example.com",
   "code": "1234"
@@ -81,7 +81,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>7. Signup - Finalize</h2>
-        <strong>POST</strong> http://localhost:3001/signup
+        <strong>POST</strong> http://localhost:3001/api/signup
         <pre>{
   "username": "nguyenvana",
   "phone": "0123456789",

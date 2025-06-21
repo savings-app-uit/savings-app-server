@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/auth");
+const transactionRoutes = require("./routes/transactionRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+
 
 const { db } = require("./config/firebase");
 
@@ -10,7 +13,9 @@ const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
-app.use("/", authRoutes);
+app.use("/api", authRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/categories", categoryRoutes);
 
 
 app.get("/test", async (req, res) => {
