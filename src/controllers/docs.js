@@ -85,13 +85,12 @@ module.exports = (req, res) => {
         <pre>{
   "username": "nguyenvana",
   "phone": "0123456789",
-  "email": nguyenvana@example.com",
+  "email": "nguyenvana@example.com",
   "password": "123456",
   "code": "1234"
 }</pre>
       </div>
 
-    
       <div class="block">
         <h2>8. Add Transaction (Expense)</h2>
         <strong>POST</strong> http://localhost:3001/api/transactions/expense
@@ -162,6 +161,28 @@ module.exports = (req, res) => {
       <div class="block">
         <h2>15. Delete User Category</h2>
         <strong>DELETE</strong> http://localhost:3001/api/categories/&lt;categoryId&gt;
+        <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
+      </div>
+
+      <div class="block">
+        <h2>16. Get Profile</h2>
+        <strong>GET</strong> http://localhost:3001/api/me
+        <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
+      </div>
+
+      <div class="block">
+        <h2>17. Update Profile</h2>
+        <strong>PUT</strong> http://localhost:3001/api/me
+        <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
+        <pre>{
+  "name": "Nguyễn Văn A",
+  "phone": "0912345678"
+}</pre>
+      </div>
+
+      <div class="block">
+        <h2>18. Delete Profile</h2>
+        <strong>DELETE</strong> http://localhost:3001/api/me
         <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
       </div>
 
