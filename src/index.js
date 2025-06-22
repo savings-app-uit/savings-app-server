@@ -4,6 +4,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const transactionRoutes = require("./routes/transactionRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const profileRoutes = require("./routes/profileRoutes"); 
 
 
 const { db } = require("./config/firebase");
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use("/api", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/categories", categoryRoutes);
-
+app.use("/api/profile", profileRoutes);
 
 app.get("/test", async (req, res) => {
   try {
