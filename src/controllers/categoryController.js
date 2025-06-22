@@ -38,18 +38,29 @@ exports.getCategories = async (req, res) => {
   }
 
   try {
-    const snapshot = await db.collection("categories")
-      .where("type", "==", type)
-      .where("userId", "in", [null, userId])
-      .get();
+    const [defaultSnap, userSnap] = await Promise.all([
+      db.collection("categories")
+        .where("type", "==", type)
+        .where("userId", "==", null)
+        .get(),
 
-    const categories = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      db.collection("categories")
+        .where("type", "==", type)
+        .where("userId", "==", userId)
+        .get()
+    ]);
+
+    const categories = [...defaultSnap.docs, ...userSnap.docs].map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
     res.json(categories);
   } catch (err) {
-    console.error("Get error at getCategories:", err); 
-    res.status(500).json({ message: "Error fetching categories", error: err });
+    res.status(500).json({ message: "Error fetching categories", error: err.message });
   }
 };
+
 
 
 exports.deleteCategory = async (req, res) => {
