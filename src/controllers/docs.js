@@ -37,7 +37,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>2. Forgot Password - Send Code</h2>
-        <strong>POST</strong> http://localhost:3001/forgot-password/api/send-code
+        <strong>POST</strong> http://localhost:3001/api/forgot-password/send-code
         <pre>{
   "email": "nguyenvana@example.com"
 }</pre>
@@ -45,7 +45,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>3. Forgot Password - Verify Code</h2>
-        <strong>POST</strong> http://localhost:3001/forgot-password/api/verify-code
+        <strong>POST</strong> http://localhost:3001/api/forgot-password/verify-code
         <pre>{
   "email": "nguyenvana@example.com",
   "code": "1234"
@@ -54,7 +54,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>4. Forgot Password - Reset</h2>
-        <strong>POST</strong> http://localhost:3001/forgot-password/api/reset
+        <strong>POST</strong> http://localhost:3001/api/forgot-password/reset
         <pre>{
   "email": "nguyenvana@example.com",
   "code": "1234",
@@ -64,7 +64,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>5. Signup - Send Code</h2>
-        <strong>POST</strong> http://localhost:3001/signup/api/send-code
+        <strong>POST</strong> http://localhost:3001/api/signup/send-code
         <pre>{
   "email": "nguyenvana@example.com"
 }</pre>
@@ -72,7 +72,7 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>6. Signup - Verify Code</h2>
-        <strong>POST</strong> http://localhost:3001/signup/api/verify-code
+        <strong>POST</strong> http://localhost:3001/api/signup/verify-code
         <pre>{
   "email": "nguyenvana@example.com",
   "code": "1234"
