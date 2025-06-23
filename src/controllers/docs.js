@@ -165,25 +165,42 @@ module.exports = (req, res) => {
       </div>
 
       <div class="block">
-        <h2>16. Get Profile</h2>
-        <strong>GET</strong> http://localhost:3001/api/me
+        <h2>16. Get Icons</h2>
+        <strong>GET</strong> http://localhost:3001/api/categories/icons
         <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
       </div>
 
       <div class="block">
-        <h2>17. Update Profile</h2>
-        <strong>PUT</strong> http://localhost:3001/api/me
+        <h2>17. Get Profile</h2>
+        <strong>GET</strong> http://localhost:3001/api/profile
+        <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
+      </div>
+
+      <div class="block">
+        <h2>18. Update Profile</h2>
+        <strong>PUT</strong> http://localhost:3001/api/profile
         <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
         <pre>{
   "name": "Nguyễn Văn A",
-  "phone": "0912345678"
+  "phone": "0912345678",
+  "imageUrl": "https://example.com/avatar.jpg"
 }</pre>
       </div>
 
       <div class="block">
-        <h2>18. Delete Profile</h2>
-        <strong>DELETE</strong> http://localhost:3001/api/me
+        <h2>19. Delete Profile</h2>
+        <strong>DELETE</strong> http://localhost:3001/api/profile
         <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
+      </div>
+
+      <div class="block">
+        <h2>20. Change Password</h2>
+        <strong>POST</strong> http://localhost:3001/api/profile/change-password
+        <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
+        <pre>{
+  "oldPassword": "123456",
+  "newPassword": "654321"
+}</pre>
       </div>
 
     </body>
