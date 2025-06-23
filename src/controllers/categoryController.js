@@ -43,16 +43,29 @@ exports.getCategories = async (req, res) => {
         .where("type", "==", type)
         .where("userId", "==", null)
         .get(),
-
       db.collection("categories")
         .where("type", "==", type)
         .where("userId", "==", userId)
         .get()
     ]);
 
-    const categories = [...defaultSnap.docs, ...userSnap.docs].map(doc => ({
-      id: doc.id,
-      ...doc.data()
+    const categoriesRaw = [...defaultSnap.docs, ...userSnap.docs];
+
+    const categories = await Promise.all(categoriesRaw.map(async (doc) => {
+      const data = doc.data();
+      const iconSnap = await db.collection("icons").doc(data.iconId).get();
+      const iconData = iconSnap.exists ? iconSnap.data() : null;
+
+      const { iconId, ...rest } = data;
+
+      return {
+        id: doc.id,
+        ...rest,
+        icon: iconData ? {
+        icon: iconData.icon || null,
+        color: iconData.color || null
+      } : null
+    };
     }));
 
     res.json(categories);
@@ -60,6 +73,7 @@ exports.getCategories = async (req, res) => {
     res.status(500).json({ message: "Error fetching categories", error: err.message });
   }
 };
+
 
 
 
@@ -85,5 +99,20 @@ exports.deleteCategory = async (req, res) => {
     res.json({ message: "Category deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: "Error deleting category", error: err.message });
+  }
+};
+
+exports.getIcons = async (req, res) => {
+  try {
+    const snapshot = await db.collection("icons").get();
+
+    const icons = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    res.json(icons);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching icons", error: err.message });
   }
 };

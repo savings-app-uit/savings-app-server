@@ -6,5 +6,6 @@ const verifyToken = require('../middlewares/verifyToken');
 router.get('/', verifyToken, controller.getCategories);
 router.post('/', verifyToken, controller.addCategory); 
 router.delete('/:id', verifyToken, controller.deleteCategory);
+router.get('/icons', controller.getIcons);
 
 module.exports = router;
