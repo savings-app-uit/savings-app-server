@@ -203,6 +203,16 @@ module.exports = (req, res) => {
 }</pre>
       </div>
 
+            <div class="block">
+        <h2>21. Scan Image</h2>
+        <strong>POST</strong> http://localhost:3001/api/scan
+        <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
+        <pre>{
+        - Type: form-data
+        - Key: image
+        - Value: upload file image, e.g., invoice3.jpg
+} </pre>
+      </div>
     </body>
   </html>
   `;

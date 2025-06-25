@@ -4,8 +4,8 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const transactionRoutes = require("./routes/transactionRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
-const profileRoutes = require("./routes/profileRoutes"); 
-
+const profileRoutes = require("./routes/profileRoutes");
+const scanRoutes = require("./routes/scanRoutes"); // Thêm route cho scan
 
 const { db } = require("./config/firebase");
 
@@ -18,6 +18,7 @@ app.use("/api", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/scan", scanRoutes); // Thêm route cho scan
 
 app.get("/test", async (req, res) => {
   try {
