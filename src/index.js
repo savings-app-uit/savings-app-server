@@ -5,7 +5,8 @@ const authRoutes = require("./routes/auth");
 const transactionRoutes = require("./routes/transactionRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const profileRoutes = require("./routes/profileRoutes");
-const scanRoutes = require("./routes/scanRoutes"); // Thêm route cho scan
+const scanRoutes = require("./routes/scanRoutes");
+const rewindRoutes = require("./routes/rewindRoutes");
 
 const { db } = require("./config/firebase");
 
@@ -18,7 +19,8 @@ app.use("/api", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/profile", profileRoutes);
-app.use("/api/scan", scanRoutes); // Thêm route cho scan
+app.use("/api/scan", scanRoutes); 
+app.use("/api/rewind", rewindRoutes);
 
 app.get("/test", async (req, res) => {
   try {
