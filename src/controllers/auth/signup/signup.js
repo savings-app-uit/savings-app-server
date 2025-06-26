@@ -2,8 +2,8 @@ const bcrypt = require("bcryptjs");
 const { db } = require("../../../config/firebase");
 
 module.exports = async (req, res) => {
-  const { username, phone, password, email, code } = req.body;
-  if (!username || !phone || !password || !email || !code)
+  const { name, phone, password, email, code } = req.body;
+  if (!name || !phone || !password || !email || !code)
     return res.status(400).json({ message: "Missing fields" });
 
   try {
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10);
     await db.collection("users").add({
-      username,
+      name,
       email,
       phone,
       password: hashed,
