@@ -83,7 +83,7 @@ module.exports = (req, res) => {
         <h2>7. Signup - Finalize</h2>
         <strong>POST</strong> http://localhost:3001/api/signup
         <pre>{
-  "username": "nguyenvana",
+  "name": "nguyenvana",
   "phone": "0123456789",
   "email": "nguyenvana@example.com",
   "password": "123456",
@@ -178,12 +178,12 @@ module.exports = (req, res) => {
 
       <div class="block">
         <h2>18. Update Profile</h2>
-        <strong>PUT</strong> http://localhost:3001/api/profile
+        <strong>POST</strong> http://localhost:3001/api/profile/update
         <br><strong>Headers:</strong> Authorization: Bearer &lt;token&gt;
         <pre>{
-  "name": "Nguyễn Văn A",
-  "phone": "0912345678",
-  "imageUrl": "https://example.com/avatar.jpg"
+  "name" (Text): "nguyenvana",
+  "phone" (Text): "0912345678",
+  "imageUrl" (File): "https://example.com/avatar.jpg"
 }</pre>
       </div>
 
