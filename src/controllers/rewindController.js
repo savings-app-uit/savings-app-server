@@ -38,6 +38,7 @@ function createGeminiPrompt(username, monthInfo, data) {
     - Dựa trên dữ liệu chi tiêu đã tổng hợp bên dưới.
     - Trả về CHỈ MỘT đối tượng JSON đúng cú pháp, không chứa text ngoài JSON.
     - Thêm các từ ngữ trendy, các icon sinh động, emoji phù hợp với từng slide.
+    - Cố định số lượng slide là 7, chọn các loại slide phù hợp với dữ liệu.
 
     **Dữ liệu đầu vào:**
     * Tổng chi tiêu: ${formatVND(data.totalExpense)}
