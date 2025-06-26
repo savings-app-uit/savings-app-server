@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { db } = require("../../../config/firebase");
+const jwt = require("jsonwebtoken"); 
 
 module.exports = async (req, res) => {
   const { name, phone, password, email, code } = req.body;
@@ -34,7 +35,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
 
     const hashed = await bcrypt.hash(password, 10);
-    await db.collection("users").add({
+    const userRef = await db.collection("users").add({
       name,
       email,
       phone,
@@ -44,7 +45,17 @@ module.exports = async (req, res) => {
 
     await db.collection("password_otps").doc(otpDoc.id).update({ isUsed: true });
 
-    return res.status(201).json({ message: "Signup successful" });
+    const token = jwt.sign({ userId: userRef.id }, "your_jwt_secret", { expiresIn: "7d" });
+
+    return res.status(201).json({
+      message: "Signup successful",
+      token,
+      user: {
+        id: userRef.id,
+        email,
+        name
+      }
+    });
 
   } catch (err) {
     return res.status(500).json({ message: "Signup failed", error: err.message });
