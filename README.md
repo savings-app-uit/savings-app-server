@@ -37,6 +37,10 @@
    #API KEY GEMINI
    GEMINI_API_KEY=AIzaSyCkKtcdRkTWK9muXmAE0G3kA9jNKcIyBZg
 
+   #MODEL
+   # Thay thế bằng đường dẫn tới model của bạn
+   PYTHON_PATH=D:\\New folder\\SE\\PPLT\\FinalProject1\\savings-app-model\\venv\\Scripts\\python.exe
+   MODEL_PATH=D:\\New folder\\SE\\PPLT\\FinalProject1\\savings-app-model 
 4. **Cài đặt dependencies:**
 
    ```bash
