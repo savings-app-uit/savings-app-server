@@ -1,4 +1,3 @@
-const { db } = require("../config/firebase");
 const { executePythonScript } = require("../utils/pythonExecutor");
 const path = require("path");
 const fs = require("fs");
@@ -11,57 +10,36 @@ exports.scanImage = async (req, res) => {
 
     const imagePath = req.file.path;
     console.log(`Processing image for user ${req.userId}: ${imagePath}`);
+
+    // 1. Chạy script Python và nhận kết quả JSON
     const classificationResult = await executePythonScript(imagePath);
 
-    if (!classificationResult.success) {
-      console.error("Classification failed:", classificationResult.error);
-      return res.status(400).json({ error: classificationResult.error });
-    }
-
-    const categoryName = classificationResult.category;
-    const categorySnapshot = await db
-      .collection("categories")
-      .where("name", "==", categoryName)
-      .where("isDefault", "==", true)
-      .get();
-
-    let categoryData = null;
-    if (!categorySnapshot.empty) {
-      const doc = categorySnapshot.docs[0];
-      const data = doc.data();
-      const iconSnap = await db.collection("icons").doc(data.iconId).get();
-      const iconData = iconSnap.exists ? iconSnap.data() : null;
-
-      categoryData = {
-        id: doc.id,
-        name: data.name,
-        iconId: data.iconId,
-        type: data.type,
-        isDefault: data.isDefault,
-        userId: data.userId,
-        icon: iconData
-          ? { icon: iconData.icon || null, color: iconData.color || null }
-          : null,
-      };
-    } else {
-      categoryData = { name: categoryName };
-    }
-
-    const response = {
-      category: categoryData,
-      date: classificationResult.invoice_date,
-      amount: classificationResult.total_amount,
-    };
-
+    // 2. Xóa file ảnh tạm sau khi xử lý xong
     if (fs.existsSync(imagePath)) {
       fs.unlink(imagePath, (err) => {
-        if (err) console.error("Error deleting file:", err);
+        if (err) console.error("Error deleting temporary file:", err);
       });
     }
 
-    res.json(response);
+    // 3. Kiểm tra kết quả từ script Python
+    if (!classificationResult.success) {
+      console.error("Classification failed:", classificationResult.error);
+      // Trả về lỗi nếu script Python có lỗi
+      return res.status(400).json({ 
+          success: false, 
+          error: classificationResult.error 
+      });
+    }
+
+    // 4. Gửi thẳng kết quả JSON nhận được từ script Python về cho Frontend
+    // Không cần truy vấn CSDL hay chỉnh sửa gì thêm.
+    res.status(200).json(classificationResult);
+
   } catch (error) {
     console.error("Scan error details:", error);
-    res.status(500).json({ error: "Server error during image processing" });
+    res.status(500).json({ 
+        success: false,
+        error: "Server error during image processing" 
+    });
   }
 };
